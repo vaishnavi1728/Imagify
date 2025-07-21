@@ -14,6 +14,9 @@ const AppContextProvider=(props)=>{
     
 
     const backendUrl=import.meta.env.VITE_BACKEND_URL
+    const api = axios.create({
+        baseURL: API_BASE_URL,
+    });
     const navigate = useNavigate()
     const loadCreditsData=async()=>{
         try{
