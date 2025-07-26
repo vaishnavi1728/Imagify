@@ -11,6 +11,7 @@ const BuyCredit = () => {
   const navigate= useNavigate()
 
   const initPay=async(order)=>{
+    console.log("Order received:", order);  // ✅ Add this here
     console.log("RAZORPAY KEY:", import.meta.env.VITE_RAZORPAY_KEY_ID);
     const options={
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -20,21 +21,24 @@ const BuyCredit = () => {
       name:'Credits Payment',
       description:'Credits Payment',
       order_id:order.id,
+      receipt: order.receipt,
       handler:async(response)=>{
-        try{
-         const {data}=await axios.post(backendUrl+'/api/user/verify-razor', response,{headers:{token}})
-         if(data.success){
-          loadCreditsData();
-          navigate('/')
-          toast.success('Credit Added')
-         } 
-        }catch(error){
-          toast.error(error.message)
-        }
+        // try{
+        //  const {data}=await axios.post(backendUrl+'/api/user/verify-razor', response,{headers:{token}})
+        //  if(data.success){
+        //   loadCreditsData();
+        //   navigate('/')
+        //   toast.success('Credit Added')
+        //  } 
+        // }catch(error){
+        //   toast.error(error.message)
+        // }
+        console.log(response);
       }
 
     }
     const rzp=new window.Razorpay(options)
+    console.log("Opening Razorpay with options:", options);
     rzp.open()
   }
   const paymentRazorpay=async(planId)=>{
@@ -42,6 +46,7 @@ const BuyCredit = () => {
       if(!user){
         setshowLogin(true)
       }else{
+        console.log("Calling Razorpay payment API for plan:", planId);
         const {data} = await axios.post(backendUrl+'/api/user/pay-razor',{planId},{headers:{token}})
         if(data.success){
           initPay(data.order)
