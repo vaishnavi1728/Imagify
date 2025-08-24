@@ -45,4 +45,3 @@ Built with the **MERN stack (MongoDB, Express, React, Node.js)** and deployed on
 
 ---
 
-## 📂 Project Structure
